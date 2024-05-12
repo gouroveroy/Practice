@@ -1,55 +1,66 @@
-//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
-// } Driver Code Ends
-class Solution
+void dijkstra(vector<vector<pair<int, int>>> &graph, int N)
 {
-public:
-    // Function to find the shortest distance of all the vertices
-    // from the source vertex S.
-    vector<int> dijkstra(int V, vector<vector<int>> adj[], int S)
+    vector<int> dist;
+    vector<int> prec;
+    dist.assign(N + 1, INT_MAX);
+    prec.assign(N + 1, -1);
+    dist[0] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, 0});
+    while (!pq.empty())
     {
-        // Code here
+        int u = pq.top().second;
+        pq.pop();
+        for (auto &edge : graph[u])
+        {
+            int v = edge.first;
+            int w = edge.second;
+            if (dist[v] > dist[u] + w)
+            {
+                dist[v] = dist[u] + w;
+                pq.push({dist[v], v});
+                prec[v] = u;
+            }
+        }
     }
-};
-
-//{ Driver Code Starts.
+    cout << min(dist[7], min(dist[8], min(dist[9], dist[10]))) << endl;
+}
 
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
+    int N, M;
+    cin >> N >> M;
+    vector<vector<pair<int, int>>> graph(N + 1);
+    int u, v, w;
+    for (int i = 0; i < M; i++)
     {
-        int V, E;
-        cin >> V >> E;
-        vector<vector<int>> adj[V];
-        int i = 0;
-        while (i++ < E)
-        {
-            int u, v, w;
-            cin >> u >> v >> w;
-            vector<int> t1, t2;
-            t1.push_back(v);
-            t1.push_back(w);
-            adj[u].push_back(t1);
-            t2.push_back(u);
-            t2.push_back(w);
-            adj[v].push_back(t2);
-        }
-        int S;
-        cin >> S;
-
-        Solution obj;
-        vector<int> res = obj.dijkstra(V, adj, S);
-
-        for (int i = 0; i < V; i++)
-            cout << res[i] << " ";
-        cout << endl;
+        cin >> u >> v >> w;
+        graph[u].push_back({v, w});
+        // graph[v].push_back({u, w});
     }
-
+    dijkstra(graph, N);
     return 0;
 }
 
-// } Driver Code Ends
+// Time Complexity: O((V+E)logV)
+// Space Complexity: O(V+E) + O(V) + O(V) = O(V+E)
+
+/*
+11 13
+0 1 2
+1 2 5
+1 3 4
+2 4 1
+2 5 4
+3 5 4
+3 6 7
+4 7 8
+4 8 6
+5 8 6
+5 9 9
+6 9 9
+6 10 6
+*/
