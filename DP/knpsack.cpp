@@ -10,7 +10,7 @@ public:
     {
         dp.assign(N + 1, vector<long long>(W + 1, -1));
     }
-    long long knapack(vector<pair<long long, long long>> &v, long long N, long long W)
+    long long knapsack(vector<pair<long long, long long>> &v, long long N, long long W)
     {
         if (N == -1 || W == 0)
         {
@@ -23,12 +23,12 @@ public:
         long long value = INT_MIN;
         if (W < v[N].first)
         {
-            value = knapack(v, N - 1, W);
+            value = knapsack(v, N - 1, W);
         }
 
         else if (W >= v[N].first)
         {
-            value = max(knapack(v, N - 1, W), knapack(v, N - 1, W - v[N].first) + v[N].second);
+            value = max(knapsack(v, N - 1, W), knapsack(v, N - 1, W - v[N].first) + v[N].second);
         }
         return dp[N][W] = value;
     }
@@ -44,6 +44,6 @@ int main()
         cin >> v[i].first >> v[i].second;
     }
     KnapSack ks(N, W);
-    cout << ks.knapack(v, N - 1, W) << endl;
+    cout << ks.knapsack(v, N - 1, W) << endl;
     return 0;
 }

@@ -1,16 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Hapiness
+class Happiness
 {
     vector<vector<int>> dp;
 
 public:
-    Hapiness(int N)
+    Happiness(int N)
     {
         dp.assign(N + 1, vector<int>(3, -1));
     }
-    int hapiness(vector<vector<int>> &v, int N, int activity)
+    int happiness(vector<vector<int>> &v, int N, int activity)
     {
         if (N < 0)
         {
@@ -22,22 +22,22 @@ public:
             return dp[N][activity];
         }
 
-        int maxhap = INT_MIN;
+        int maxHappiness = INT_MIN;
         if (activity != 0)
         {
-            maxhap = max(maxhap, v[N][0] + hapiness(v, N - 1, 0));
+            maxHappiness = max(maxHappiness, v[N][0] + happiness(v, N - 1, 0));
         }
 
         if (activity != 1)
         {
-            maxhap = max(maxhap, v[N][1] + hapiness(v, N - 1, 1));
+            maxHappiness = max(maxHappiness, v[N][1] + happiness(v, N - 1, 1));
         }
 
         if (activity != 2)
         {
-            maxhap = max(maxhap, v[N][2] + hapiness(v, N - 1, 2));
+            maxHappiness = max(maxHappiness, v[N][2] + happiness(v, N - 1, 2));
         }
-        return dp[N][activity] = maxhap;
+        return dp[N][activity] = maxHappiness;
     }
 };
 
@@ -53,7 +53,7 @@ int main()
             cin >> v[i][j];
         }
     }
-    Hapiness hp(N);
-    cout << max(hp.hapiness(v, N - 1, 0), max(hp.hapiness(v, N - 1, 1), hp.hapiness(v, N - 1, 2))) << endl;
+    Happiness hp(N);
+    cout << max(hp.happiness(v, N - 1, 0), max(hp.happiness(v, N - 1, 1), hp.happiness(v, N - 1, 2))) << endl;
     return 0;
 }
